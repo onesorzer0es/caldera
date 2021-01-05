@@ -35,6 +35,7 @@ class LinkSchema(ma.Schema):
     host = ma.fields.String(missing=None)
     output = ma.fields.String()
     deadman = ma.fields.Boolean()
+    file_encoding = ma.fields.String()
 
     @ma.pre_load()
     def fix_ability(self, link, **_):
@@ -87,7 +88,7 @@ class Link(BaseObject):
                     TIMEOUT=124)
 
     def __init__(self, command, paw, ability, status=-3, score=0, jitter=0, cleanup=0, id=None, pin=0,
-                 host=None, deadman=False):
+                 host=None, deadman=False, file_encoding='plain-text'):
         super().__init__()
         self.id = id
         self.command = command
@@ -110,6 +111,7 @@ class Link(BaseObject):
         self._pin = pin
         self.output = False
         self.deadman = deadman
+        self.file_encoding = file_encoding
 
     def __eq__(self, other):
         if isinstance(other, Link):
